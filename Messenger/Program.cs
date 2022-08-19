@@ -1,8 +1,9 @@
-using Messenger.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNet.SignalR;
+using Messenger.Hubs;
+using Messenger.Database;
 
 namespace Messenger
 {

@@ -38,11 +38,26 @@ connection.start().then(function () {
     return console.error(err.toString());
 });
 
+document.getElementById("connectButton").addEventListener("click", function (e) {
+    var userName = document.getElementById("userInput").value;
+    var userGroup = document.getElementById("roomName").value;
+    connection.invoke("ConnectRoom", userName, userGroup);
+    e.preventDefault();
+});
+
+document.getElementById("disconnectButton").addEventListener("click", function (e) {
+    var userName = document.getElementById("userInput").value;
+    var userGroup = document.getElementById("roomName").value;
+    connection.invoke("DisconnectRoom", userName, userGroup);
+    e.preventDefault();
+});
+
 document.getElementById("sendButton").addEventListener("click", function (event) {
     var user = document.getElementById("userInput").value;
     var message = document.getElementById("messageInput").value;
     var rec = document.getElementById("receiver").value;
-    connection.invoke("SendMessage", user, message, rec).catch(function (err) {
+    var userGroup = document.getElementById("userGroup").value;
+    connection.invoke("SendMessage", user, message, rec, userGroup).catch(function (err) {
         return console.error(err.toString());
     });
     event.preventDefault();

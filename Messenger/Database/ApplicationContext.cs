@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Messenger.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Messenger.Models
+namespace Messenger.Database
 {
     public class ApplicationContext : DbContext
     {
@@ -16,5 +17,7 @@ namespace Messenger.Models
             );
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Group> Groups { get; set; }
+
     }
 }
