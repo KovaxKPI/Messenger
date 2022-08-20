@@ -26,7 +26,7 @@
 {
         <tr>
             <td>
-                <div class="col-4"><input type="text" id="roomName" value="@item.Name"/>
+                <div class="col-4"><input type="text" id="roomName" value="@item.Name"/></div>
             </td>
             <td>
                 @foreach(var user in item.Users)
@@ -48,9 +48,8 @@
 }
     </tbody>
 </table>    
-
+<div class="row">&nbsp;</div>
 <div class="container">
-        <div class="row">&nbsp;</div>
         <div class="row">
             <div class="col-2">Group</div>
             <div class="col-4"><input type="text" id="userGroup" value="@ViewBag.Group"/></div>
