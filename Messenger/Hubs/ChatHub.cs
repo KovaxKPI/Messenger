@@ -1,4 +1,5 @@
 ﻿using Messenger.Database;
+using Messenger.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,9 @@ namespace Messenger.Hubs
         
         public async Task SendMessage(string user, string message, string to, string roomName)
         {
+            Message message1 = new Message() { Content = message, CreatedDate = DateTime.Now, GroupName = roomName, Receiver = to, Sender = user };
+            await db.AddAsync(message1);
+            await db.SaveChangesAsync();
             if(!string.IsNullOrEmpty(to))
             {
                 if (Context.UserIdentifier != to)
@@ -60,6 +64,28 @@ namespace Messenger.Hubs
                     }
                 }
                 
+            }
+        }
+        public async Task ShowPreviousMessages()
+        {
+            foreach(var message in db.Messages)
+            {
+                if (string.IsNullOrEmpty(message.Receiver))
+                {
+                    if (string.IsNullOrEmpty(message.GroupName))
+                    {
+                        await Clients.All.SendAsync("ReceiveMessage", message.Sender, message.Content);
+                    }
+                    else
+                    {
+                        await Clients.Group(message.GroupName).SendAsync("ReceiveMessage", message.Sender, message.Content);
+                    }
+                }
+                else
+                {
+                    if (Context.UserIdentifier != message.Receiver)
+                        await Clients.User(Context.UserIdentifier).SendAsync("ReceiveMessage", message.Sender, message.Content);
+                }
             }
         }
     }

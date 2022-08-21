@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Messenger.Models.Message>
+
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<h1>Messages</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Receiver)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GroupName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Receiver)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GroupName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<!--
+    @{ 
+                /*if (User.IsInRole("admin"))
+                {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+                }
+                else
+                {
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                </td>
+                }*/
+            }
+-->

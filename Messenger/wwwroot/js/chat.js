@@ -22,6 +22,7 @@ connection.on("Notify", function (message) {
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
     connection.invoke("AddToGroups");
+    connection.invoke("ShowPreviousMessages");
 }).catch(function (err) {
     return console.error(err.toString());
     

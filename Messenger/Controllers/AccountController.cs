@@ -26,10 +26,12 @@ namespace Messenger.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await db.Users.FirstOrDefaultAsync(u => u.Nickname == model.Nickname && u.Password == model.Password);
+                User user = await db.Users
+                    .Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => u.Nickname == model.Nickname && u.Password == model.Password);
                 if (user != null)
                 {
-                    await Authenticate(model.Nickname);
+                    await Authenticate(user);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -48,27 +50,28 @@ namespace Messenger.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await db.Users.FirstOrDefaultAsync(u => u.Nickname == model.Nickname);
+                User user = await db.Users
+                    .Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => u.Nickname == model.Nickname);
                 if (user == null)
                 {
-                    db.Users.Add(new User { Nickname = model.Nickname, Password = model.Password });
+                    User newUser = new User { Nickname = model.Nickname, Password = model.Password, RoleId = 2 };
+                    db.Users.Add(newUser);
                     await db.SaveChangesAsync();
-
-                    await Authenticate(model.Nickname);
-
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login", "Account");
                 }
                 else
                     ModelState.AddModelError("", "Incorrect login and(or) password");
             }
             return View(model);
         }
-        private async Task Authenticate(string userName)
+        private async Task Authenticate(User user)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
-                new Claim(ClaimTypes.NameIdentifier, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Nickname),
+                new Claim(ClaimTypes.NameIdentifier, user.Nickname),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));

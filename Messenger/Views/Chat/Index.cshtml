@@ -26,7 +26,7 @@
 {
         <tr>
             <td>
-                <div class="col-4"><input type="text" id="roomName" value="@item.Name"/></div>
+                <div class="col-4"><input type="text" id="roomName" value="@item.Name" disabled = "disabled"/></div>
             </td>
             <td>
                 @foreach(var user in item.Users)
@@ -52,11 +52,11 @@
 <div class="container">
         <div class="row">
             <div class="col-2">Group</div>
-            <div class="col-4"><input type="text" id="userGroup" value="@ViewBag.Group"/></div>
+            <div class="col-4"><input type="text" id="userGroup" value="@ViewBag.Group" disabled = "disabled"/></div>
         </div>
         <div class="row">
             <div class="col-2">User</div>
-            <div class="col-4"><input type="text" id="userInput" value="@ViewBag.Name"/></div>
+            <div class="col-4"><input type="text" id="userInput" value="@ViewBag.Name" disabled = "disabled"/></div>
         </div>
         <div class="row">
 
