@@ -13,7 +13,7 @@ namespace Messenger
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+            string connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
 
             builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 
